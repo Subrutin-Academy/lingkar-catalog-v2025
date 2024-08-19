@@ -1,5 +1,8 @@
 package com.subrutin.lingkar.catalog.domain;
 
+import java.util.List;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,42 +12,37 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "publisher")
-public class Publisher {
+public class Publisher extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(name = "name", nullable = false)
-    private String name;
+    public String name;
 
     @Column(name = "description")
-    private String description;
+    public String description;
 
-    public Long getId() {
-        return id;
+    public static List<Publisher> findAllPublishers(){
+        return listAll();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public static Publisher findPublisherById(Long id){
+        return findById(id);
     }
 
-    public String getName() {
-        return name;
+    public static void createPublisher(Publisher publisher){
+        persist(publisher);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public static void updatePublisher(Publisher publisher){
+        persist(publisher);
     }
 
-    public String getDescription() {
-        return description;
+    public static void deletePublisher(Long id){
+        deleteById(id);
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     
 
 }
