@@ -1,6 +1,7 @@
 package com.subrutin.lingkar.catalog.repository.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.subrutin.lingkar.catalog.domain.Publisher;
 import com.subrutin.lingkar.catalog.repository.PublisherRepository;
@@ -17,9 +18,9 @@ public class PublisherRepositoryImpl implements PublisherRepository, PanacheRepo
     }
 
     @Override
-    public Publisher findPublisherById(Long id) {
+    public Optional<Publisher> findPublisherById(Long id) {
 
-        return this.findById(id);
+        return Optional.of(this.findById(id));
     }
 
     @Override
