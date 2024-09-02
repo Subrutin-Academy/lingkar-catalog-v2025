@@ -7,10 +7,12 @@ import org.jboss.resteasy.reactive.RestResponse;
 import com.subrutin.lingkar.catalog.service.PublisherService;
 import com.subrutin.lingkar.catalog.web.dto.PublisherCreateRequestDTO;
 import com.subrutin.lingkar.catalog.web.dto.PublisherDetailResponseDTO;
+import com.subrutin.lingkar.catalog.web.dto.PublisherUpdateRequestDTO;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
@@ -41,5 +43,13 @@ public class PublisherResource {
         return RestResponse.ok(dto);
 
     }
+
+    //PUT v1/publishers/{id}
+    @PUT
+    @Path("{id}")
+    public RestResponse<Void> updatePublisher(@PathParam("id") Long id, PublisherUpdateRequestDTO dto) {
+        publisherService.updatePublisher(id, dto);
+        return RestResponse.ok();
+    } 
 
 }

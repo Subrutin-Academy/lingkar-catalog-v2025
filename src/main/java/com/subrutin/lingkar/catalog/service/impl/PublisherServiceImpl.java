@@ -5,6 +5,7 @@ import com.subrutin.lingkar.catalog.repository.PublisherRepository;
 import com.subrutin.lingkar.catalog.service.PublisherService;
 import com.subrutin.lingkar.catalog.web.dto.PublisherCreateRequestDTO;
 import com.subrutin.lingkar.catalog.web.dto.PublisherDetailResponseDTO;
+import com.subrutin.lingkar.catalog.web.dto.PublisherUpdateRequestDTO;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -36,6 +37,18 @@ public class PublisherServiceImpl implements PublisherService {
                 .orElseThrow(() -> new RuntimeException("publisher.notfound"));
 
         return new PublisherDetailResponseDTO(publisher.getId(), publisher.getName(), publisher.getDescription());
+    }
+
+    @Transactional
+    @Override
+    public void updatePublisher(Long id, PublisherUpdateRequestDTO dto) {
+        // get data publisher
+        Publisher publisher = publisherRepository.findPublisherById(id)
+                .orElseThrow(() -> new RuntimeException("publisher.notfound"));
+        // update
+        publisher.setName(dto.name());
+        publisher.setDescription(dto.description());
+        publisherRepository.updatePublisher(publisher);
     }
 
 }
