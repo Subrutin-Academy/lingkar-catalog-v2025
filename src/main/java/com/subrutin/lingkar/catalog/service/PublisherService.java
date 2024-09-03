@@ -12,4 +12,6 @@ public interface PublisherService {
 
     public void updatePublisher(Long id, PublisherUpdateRequestDTO dto);
 
+    public void deletePublisher(Long id);
+
 }

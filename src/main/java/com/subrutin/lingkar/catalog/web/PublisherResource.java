@@ -10,6 +10,7 @@ import com.subrutin.lingkar.catalog.web.dto.PublisherDetailResponseDTO;
 import com.subrutin.lingkar.catalog.web.dto.PublisherUpdateRequestDTO;
 
 import jakarta.inject.Inject;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -51,5 +52,12 @@ public class PublisherResource {
         publisherService.updatePublisher(id, dto);
         return RestResponse.ok();
     } 
+
+    @DELETE
+    @Path("{id}")
+    public RestResponse<Void> deletePublisher(@PathParam("id") Long id){
+        publisherService.deletePublisher(id);
+        return RestResponse.ok();
+    }
 
 }
