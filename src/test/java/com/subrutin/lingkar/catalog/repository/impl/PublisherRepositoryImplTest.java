@@ -3,6 +3,7 @@ package com.subrutin.lingkar.catalog.repository.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -41,24 +42,24 @@ public class PublisherRepositoryImplTest {
     @Test
     void testDeletePublisher() {
         publisherRepository.deletePublisher(1L);
-        Publisher publisher = this.publisherRepository.findPublisherById(1L);
-        assertEquals(null, publisher);
+        Optional<Publisher> publisher = this.publisherRepository.findPublisherById(1L);
+        assertEquals(false, publisher.isPresent());
 
     }
 
     @Test
     void testFindPublisherById() {
-        Publisher publisher = this.publisherRepository.findPublisherById(1L);
-        assertEquals("Bentang Pustaka", publisher.getName());
+        Optional<Publisher> publisher = this.publisherRepository.findPublisherById(1L);
+        assertEquals("Bentang Pustaka", publisher.get().getName());
 
     }
 
     @Test
     void testUpdatePublisher() {
-        Publisher publisher = publisherRepository.findPublisherById(1L);
+        Publisher publisher = publisherRepository.findPublisherById(1L).get();
         publisher.setName("Penerbit Bentang Pustaka");
         publisherRepository.updatePublisher(publisher);
-        Publisher publisher2 = publisherRepository.findPublisherById(1L);
+        Publisher publisher2 = publisherRepository.findPublisherById(1L).get();
         assertEquals("Penerbit Bentang Pustaka", publisher2.getName());
 
     }
