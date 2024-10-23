@@ -1,5 +1,7 @@
 package com.subrutin.lingkar.catalog.repository.impl;
 
+import java.util.Optional;
+
 import com.subrutin.lingkar.catalog.domain.Author;
 import com.subrutin.lingkar.catalog.repository.AuthorRepository;
 
@@ -14,6 +16,11 @@ public class AuthorRepositoryImpl implements AuthorRepository, PanacheRepository
     @Override
     public void save(Author author) {
         this.persist(author);
+    }
+
+    @Override
+    public Optional<Author> findAuthorById(Long id) {
+        return this.find("WHERE id=?1",id).firstResultOptional();
     }
 
 }
