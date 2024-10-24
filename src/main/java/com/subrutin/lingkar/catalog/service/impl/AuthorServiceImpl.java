@@ -1,13 +1,17 @@
 package com.subrutin.lingkar.catalog.service.impl;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.subrutin.lingkar.catalog.domain.Author;
 import com.subrutin.lingkar.catalog.repository.AuthorRepository;
 import com.subrutin.lingkar.catalog.service.AuthorService;
 import com.subrutin.lingkar.catalog.web.dto.AuthorCreateRequestDTO;
 import com.subrutin.lingkar.catalog.web.dto.AuthorDetailResponseDTO;
+import com.subrutin.lingkar.catalog.web.dto.AuthorListResponseDTO;
 
+import io.quarkus.runtime.util.StringUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -39,10 +43,19 @@ public class AuthorServiceImpl implements AuthorService {
                 .orElseThrow(() -> new RuntimeException("authorid.notfound"));
         // author -> dto
         return new AuthorDetailResponseDTO(author.getId(),
-         author.getName(), 
-         author.getBirthPlace(), 
-         author.getBirthDate().toEpochDay(),
-         author.getDescription());
+                author.getName(),
+                author.getBirthPlace(),
+                author.getBirthDate().toEpochDay(),
+                author.getDescription());
+    }
+
+    @Override
+    public List<AuthorListResponseDTO> findAuthorList(String authorName) {
+        authorName = StringUtil.isNullOrEmpty(authorName) ? "%" : authorName + "%";
+        List<Author> authors = authorRepository.findAuthorsByName(authorName);
+        return authors.stream().map(a -> {
+            return new AuthorListResponseDTO(a.getId(), a.getName());
+        }).collect(Collectors.toList());
     }
 
 }

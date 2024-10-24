@@ -1,17 +1,20 @@
 package com.subrutin.lingkar.catalog.web;
 
 import java.net.URI;
+import java.util.List;
 
 import org.jboss.resteasy.reactive.RestResponse;
 
 import com.subrutin.lingkar.catalog.service.AuthorService;
 import com.subrutin.lingkar.catalog.web.dto.AuthorCreateRequestDTO;
 import com.subrutin.lingkar.catalog.web.dto.AuthorDetailResponseDTO;
+import com.subrutin.lingkar.catalog.web.dto.AuthorListResponseDTO;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.QueryParam;
 
 @Path("/v1/authors")
 public class AuthorResource {
@@ -36,4 +39,10 @@ public class AuthorResource {
         return RestResponse.ok(dto);
     }
     
+    @GET
+    public RestResponse<List<AuthorListResponseDTO>> findAuthorList(@QueryParam("authorName") String authorName){
+        List<AuthorListResponseDTO> dtos = authorService.findAuthorList(authorName);
+        return RestResponse.ok(dtos);
+
+    }
 }
