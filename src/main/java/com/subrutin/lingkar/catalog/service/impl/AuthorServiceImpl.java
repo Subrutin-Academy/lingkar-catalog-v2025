@@ -7,12 +7,13 @@ import java.util.stream.Collectors;
 import com.subrutin.lingkar.catalog.domain.Author;
 import com.subrutin.lingkar.catalog.repository.AuthorRepository;
 import com.subrutin.lingkar.catalog.service.AuthorService;
-import com.subrutin.lingkar.catalog.web.dto.AuthorCreateRequestDTO;
+import com.subrutin.lingkar.catalog.web.dto.AuthorRequestDTO;
 import com.subrutin.lingkar.catalog.web.dto.AuthorDetailResponseDTO;
 import com.subrutin.lingkar.catalog.web.dto.AuthorListResponseDTO;
 
 import io.quarkus.runtime.util.StringUtil;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class AuthorServiceImpl implements AuthorService {
@@ -24,7 +25,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void createAuthor(AuthorCreateRequestDTO dto) {
+    public void createAuthor(AuthorRequestDTO dto) {
         // konversi dto -> entity
         Author author = new Author();
         author.setName(dto.name());
@@ -56,6 +57,21 @@ public class AuthorServiceImpl implements AuthorService {
         return authors.stream().map(a -> {
             return new AuthorListResponseDTO(a.getId(), a.getName());
         }).collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public void updateAuthor(Long id, AuthorRequestDTO dto) {
+        // mengambil data dari database -> persistence layer
+        Author author = authorRepository.findAuthorById(id)
+                .orElseThrow(() -> new RuntimeException("authorid.notfound"));
+        // update data
+        author.setName(dto.name());
+        author.setBirthPlace(dto.birthPlace());
+        author.setBirthDate(LocalDate.ofEpochDay(dto.birthDate()));
+        author.setDescription(dto.description());
+        // menyimpan ke database
+        authorRepository.save(author);
     }
 
 }

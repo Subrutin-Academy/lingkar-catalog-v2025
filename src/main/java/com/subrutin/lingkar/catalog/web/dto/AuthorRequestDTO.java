@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record AuthorCreateRequestDTO(
+public record AuthorRequestDTO(
     String name,
     String birthPlace,//snake_case
     Long birthDate,
