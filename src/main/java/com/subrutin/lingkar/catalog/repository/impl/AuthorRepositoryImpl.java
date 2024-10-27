@@ -31,4 +31,10 @@ public class AuthorRepositoryImpl implements AuthorRepository, PanacheRepository
         return query.list();
     }
 
+    @Transactional
+    @Override
+    public void delete(Long id) {
+      this.deleteById(id);
+    }
+
 }

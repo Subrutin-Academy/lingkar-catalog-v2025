@@ -10,6 +10,7 @@ import com.subrutin.lingkar.catalog.web.dto.AuthorRequestDTO;
 import com.subrutin.lingkar.catalog.web.dto.AuthorDetailResponseDTO;
 import com.subrutin.lingkar.catalog.web.dto.AuthorListResponseDTO;
 
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -53,4 +54,13 @@ public class AuthorResource {
         authorService.updateAuthor(authorId, dto);
         return RestResponse.ok();
     }
+
+    @DELETE
+    @Path("{authorId}")
+    public RestResponse<Void> deleteAuthor(@PathParam("authorId") Long id){
+        authorService.delete(id);
+        return RestResponse.noContent();
+    }
+
+    
 }

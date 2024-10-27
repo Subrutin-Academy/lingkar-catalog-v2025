@@ -13,4 +13,6 @@ public interface AuthorRepository {
 
     public List<Author> findAuthorsByName(String authorName);
 
+    public void delete(Long id);
+
 }
